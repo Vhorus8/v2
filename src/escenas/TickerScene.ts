@@ -12,36 +12,72 @@ export class TickerScene extends Container implements IUpdateable {
 
     // private metal: IHitbox[];
 
-    // private world: Container;
+    private world: Container;
     // private bg: Sprite;
 
     constructor(){
         super();
 
-        // this.world = new Container();
+        this.world = new Container();
 
         this.plats = [];
 
         // Plataformas
+        // piso 1:
         let plat = new Platform();
-        plat.position.set(20,100);
-        // this.world.addChild(plat);
-        this.addChild(plat);
+        plat.position.set(275,181);
+        this.world.addChild(plat);
         this.plats.push(plat);
 
         plat = new Platform();
-        plat.position.set(50,100);
-        // this.world.addChild(plat);
-        this.addChild(plat);
+        plat.position.set(314,181);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        // piso 2:
+        plat = new Platform();
+        plat.position.set(80,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(119,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(158,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(197,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(236,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(275,220);
+        this.world.addChild(plat);
+        this.plats.push(plat);
+
+        plat = new Platform();
+        plat.position.set(314,220);
+        this.world.addChild(plat);
         this.plats.push(plat);
 
         // Player
         this.beetle = new Player();
-        this.beetle.x = 50;
+        // this.beetle.scale.set(3);
+        this.beetle.x = 80;
         this.beetle.y = 60;
+        
+        this.addChild(this.world);
         this.addChild(this.beetle);
-
-        // this.addChild(this.world);
     }
 
     public update(deltaTime: number, _deltaFrame: number): void {
@@ -62,8 +98,8 @@ export class TickerScene extends Container implements IUpdateable {
         }
 
         // Límite player borde inferior
-        if (this.beetle.y > HEIGHT - 6.5){
-            this.beetle.y = HEIGHT - 6.5;
+        if (this.beetle.y > HEIGHT - 19.5){
+            this.beetle.y = HEIGHT - 19.5;
             this.beetle.speed.y = 0;
             this.beetle.canJump = true;
         }

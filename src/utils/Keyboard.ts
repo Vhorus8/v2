@@ -32,5 +32,4 @@ export class Keyboard {
         Keyboard.up.emit(e.code);
         Keyboard.state.set(e.code, false);
     }
-
 }
