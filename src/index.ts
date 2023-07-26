@@ -3,8 +3,8 @@ import { assets } from './assets';
 import { TickerScene } from './escenas/TickerScene';
 import { Keyboard } from './utils/Keyboard';
 
-export const WIDTH = 700;
-export const HEIGHT = 700;
+export const WIDTH = 540;
+export const HEIGHT = 540;
 
 settings.ROUND_PIXELS = true;
 settings.SCALE_MODE = SCALE_MODES.LINEAR;
@@ -23,7 +23,7 @@ Keyboard.initialize();
 // adaptar tamaño lienzo a ventana
 window.addEventListener("resize", ()=>{
 	
-	const scaleX = window.innerWidth / app.screen.width; //ancho navegador dividido x ancho lienzo
+	const scaleX = window.innerWidth / app.screen.width;
 	const scaleY = window.innerHeight / app.screen.height;
 	const scale = Math.min(scaleX,scaleY);
 	
@@ -36,10 +36,8 @@ window.addEventListener("resize", ()=>{
 	app.view.style.width = gameWidth + "px";
 	app.view.style.height = gameHeight + "px";
 	
-	app.view.style.marginLeft = marginHorizontal + "px"; //marginHorizontal.toString()  para convertir a string
-	// app.view.style.marginRight = marginHorizontal + "px";
+	app.view.style.marginLeft = marginHorizontal + "px";
 	app.view.style.marginTop = marginVertical + "px";
-	// app.view.style.marginBottom = marginVertical + "px";
 });
 window.dispatchEvent(new Event("resize"));
 

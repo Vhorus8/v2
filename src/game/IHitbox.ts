@@ -15,11 +15,10 @@ export function checkCollision(objA:IHitbox, objB:IHitbox):Rectangle | null {
     const bottommostTop = rA.top < rB.top ? rB.top : rA.top;
     const topmostBottom = rA.bottom > rB.bottom ? rB.bottom : rA.bottom;
 
-    const makeSenseHor = rightmostLeft < leftmostRight; //hay colisión
+    const makeSenseHor = rightmostLeft < leftmostRight;
     const makeSenseVer = bottommostTop < topmostBottom;
 
-    //¿Esto es sólo cuando hay colisión horizontal Y vertical? (no sólo una d las dos)
-    if (makeSenseHor && makeSenseVer){  // ¿(makeSenseHor || makeSenseVer)?
+    if (makeSenseHor && makeSenseVer){  // hay colisión
         
         const retval = new Rectangle();
 

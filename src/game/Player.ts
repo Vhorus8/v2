@@ -6,15 +6,17 @@ import { Keyboard } from "../utils/Keyboard";
 export class Player extends PhysicsContainer implements IHitbox {
 
     private static readonly GRAVITY = 700;
-    private static readonly MOVE_SPEED = 215;
-    private static readonly ROLL_SPEED = 310;  // *
+    private static readonly MOVE_SPEED = 210;
+    private static readonly ROLL_SPEED = 360;  // *
+
     private beetleIdle: AnimatedSprite;
     private beetleWalk: AnimatedSprite;  // *
     private beetleRoll: AnimatedSprite;  // *
     private hitbox: Graphics;
 
-    public rollState = false;  // *
     public canJump = true;
+    public rollState = false;  // *
+    // public break = false;  //(activar al saltar en roll state)
 
     constructor(){
         super();
@@ -57,7 +59,8 @@ export class Player extends PhysicsContainer implements IHitbox {
         this.beetleRoll.play();
         this.beetleRoll.animationSpeed = 0.2;
 
-        // const auxZero = new Graphics(); // visualizar eje
+        // Visualizar eje
+        // const auxZero = new Graphics();
         // auxZero.beginFill(0xFF00FF);
         // auxZero.drawCircle(0,0,4);
         // auxZero.endFill();
@@ -89,10 +92,10 @@ export class Player extends PhysicsContainer implements IHitbox {
     }
 
     public override update(deltaMS:number){
-        super.update(deltaMS/1000); // 'super.udate' llama al update del padre
+        super.update(deltaMS/1000); // 'super.update' llama al update del padre
         this.beetleIdle.update(deltaMS / (1000/60));
 
-        if (Keyboard.state.get("Digit1")){  // ON/OFF rollState
+        if (Keyboard.state.get("Digit1")){  // ON/OFF rollState            
             if (this.rollState == false){
                 this.rollState = true;
                 this.beetleIdle.visible = false;
@@ -121,10 +124,6 @@ export class Player extends PhysicsContainer implements IHitbox {
                 this.beetleIdle.visible = false;  // *
                 this.beetleRoll.visible = true;  // *
                 this.beetleRoll.scale.x = -1;  // *
-
-                // if (Keyboard.up){
-                //     this.beetleRoll.scale.x = -1;
-                // }
             }
         } else if (Keyboard.state.get("ArrowLeft")){
 
@@ -142,10 +141,6 @@ export class Player extends PhysicsContainer implements IHitbox {
                 this.beetleIdle.visible = false;  // *
                 this.beetleRoll.visible = true;  // *
                 this.beetleRoll.scale.x = 1;  // *
-
-                // if (Keyboard.up){
-                //     this.beetleRoll.scale.x = 1;
-                // }
             }
         } else {
             this.speed.x = 0;
@@ -168,7 +163,9 @@ export class Player extends PhysicsContainer implements IHitbox {
             if (this.rollState == false){
                 this.speed.y = -285;
             } else {
-                this.speed.y = -140;
+                this.speed.y = -150;
+                // this.break = true;
+                // por 8 seg. (timer Ticker)
             }
         }
     }
