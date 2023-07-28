@@ -15,8 +15,8 @@ export class Player extends PhysicsContainer implements IHitbox {
     private hitbox: Graphics;
 
     public canJump = true;
-    public rollState = false;  // *
-    // public break = false;  //(activar al saltar en roll state)
+    public rollState = false;  // al juntar 10 monedas, se activa x 8 seg.
+    public break = false;  //(activar al saltar en roll state)  // *
 
     constructor(){
         super();
@@ -61,8 +61,8 @@ export class Player extends PhysicsContainer implements IHitbox {
 
         // Visualizar eje
         // const auxZero = new Graphics();
-        // auxZero.beginFill(0xFF00FF);
-        // auxZero.drawCircle(0,0,4);
+        // auxZero.beginFill(0x0000ff);
+        // auxZero.drawCircle(0,0,1);
         // auxZero.endFill();
 
         this.hitbox = new Graphics();
@@ -164,8 +164,14 @@ export class Player extends PhysicsContainer implements IHitbox {
                 this.speed.y = -285;
             } else {
                 this.speed.y = -150;
-                // this.break = true;
-                // por 8 seg. (timer Ticker)
+                this.break = true;
+
+                // Timer 'break':
+                setTimeout(()=>{ this.break = false }, 500);
+                
+                // setTimeout(function tenSeconds() {
+                //     console.log(“Ten Seconds!”);
+                // }, 10000);  // (en milisegundos)
             }
         }
     }

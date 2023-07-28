@@ -9,7 +9,7 @@ export class TickerScene extends Container implements IUpdateable {
 
     private beetle: Player;
     private plats: Platform[];
-    // private breakable: Breakable[]; // ladrillos rompibles
+    // private breakable:Container; // ladrillos rompibles
     private bricks: Brick[];
     // private metal: IHitbox[];
     // private bg: Sprite;
@@ -22,6 +22,8 @@ export class TickerScene extends Container implements IUpdateable {
         this.plats = [];
         this.bricks = [];
 
+        // this.breakable = new Container();  // *
+
         let brick = new Brick(); // Ladrillo
         let plat = new Platform(); // Bloque metal
 
@@ -29,6 +31,9 @@ export class TickerScene extends Container implements IUpdateable {
         // this.world.addChild(brik); this.breakable.push(brik);
 
     // piso 1:
+        plat = new Platform(); plat.position.set(236,181);
+        this.world.addChild(plat); this.plats.push(plat);
+
         brick = new Brick(); brick.position.set(275,181);  // 0
         this.world.addChild(brick); this.bricks.push(brick);
 
@@ -87,17 +92,27 @@ export class TickerScene extends Container implements IUpdateable {
             }
         }
 
-        for (let brick of this.bricks){  // eventos brick?
+        // Eventos brick
+        for (let brick of this.bricks){
             const overlap = checkCollision(this.beetle, brick);
             if (overlap != null){  // (si hay colisión)
                 if (this.beetle.rollState == false){
                     this.beetle.separate(overlap, brick.position);
                 } else {  // (rollState = true)
-                    
-                    // this.bricks.splice(0,1); // Splice! - hay q eliminar los objetos del array
-                    this.world.removeChild(brick);   // *
-                    // this.beetle.speed.y = -100;
-                    // this.beetle.speed.x = -this.beetle.speed.x;
+                    if (this.beetle.y >= brick.y - 36){  // si colisiono lateralmente
+                        this.world.removeChild(brick);
+                        const brickPos = this.bricks.indexOf(brick);
+                        this.bricks.splice(brickPos,1);  // eliminar (o reemplazar) del array
+                        this.beetle.speed.y = -100;
+                        // agregar rebote lateral?
+                    } else if (this.beetle.y <= brick.y - 37 && this.beetle.break == true){  // si colisiono desde arriba y 'break = true'
+                        this.world.removeChild(brick);
+                        const brickPos = this.bricks.indexOf(brick);
+                        this.bricks.splice(brickPos,1);  // eliminar (o reemplazar) del array
+                        this.beetle.speed.y = -100;
+                    } else {
+                        this.beetle.separate(overlap, brick.position);
+                    }
                 }
             }
         }
@@ -110,8 +125,8 @@ export class TickerScene extends Container implements IUpdateable {
         }
 
         // límite borde inferior
-        if (this.beetle.y > HEIGHT - 19.5){
-            this.beetle.y = HEIGHT - 19.5;
+        if (this.beetle.y > HEIGHT - 19){
+            this.beetle.y = HEIGHT - 19;
             this.beetle.speed.y = 0;
             this.beetle.canJump = true;
         }
