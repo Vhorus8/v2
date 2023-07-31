@@ -26,7 +26,7 @@ export class Platform extends Container implements IHitbox {
 }
 
 // Ladrillo
-export class Brick extends Container implements IHitbox {  // *
+export class Brick extends Container implements IHitbox {
     
     private hitbox: Graphics;
     
@@ -38,7 +38,7 @@ export class Brick extends Container implements IHitbox {  // *
         this.addChild(spr);
         
         this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x0000ff, 0.5);
+        this.hitbox.beginFill(0x0000ff, 0.01);
         this.hitbox.drawRect(-19.5,-20,39,39);
         this.hitbox.endFill();
         this.addChild(this.hitbox);

@@ -1,28 +1,28 @@
 import { AnimatedSprite, Graphics, ObservablePoint, Rectangle, Texture } from "pixi.js";
 import { PhysicsContainer } from "./PhysicsContainer";
 import { IHitbox } from "./IHitbox";
-import { Keyboard } from "../utils/Keyboard";
+import { Keyb } from "../utils/Keyboard";
 
-export class Player extends PhysicsContainer implements IHitbox {
+export class P1 extends PhysicsContainer implements IHitbox {
 
     private static readonly GRAVITY = 700;
     private static readonly MOVE_SPEED = 210;
-    private static readonly ROLL_SPEED = 360;  // *
+    private static readonly ROLL_SPEED = 340;
 
-    private beetleIdle: AnimatedSprite;
-    private beetleWalk: AnimatedSprite;  // *
-    private beetleRoll: AnimatedSprite;  // *
+    private bIdle: AnimatedSprite;
+    private bWalk: AnimatedSprite;
+    private bRoll: AnimatedSprite;
     private hitbox: Graphics;
 
     public canJump = true;
-    public rollState = false;  // al juntar 10 monedas, se activa x 8 seg.
-    public break = false;  //(activar al saltar en roll state)  // *
+    public roll = false;  // al juntar 10 monedas, se activa x 8 seg.
+    public break = false;
 
     constructor(){
         super();
 
         // idle
-        this.beetleIdle = new AnimatedSprite([
+        this.bIdle = new AnimatedSprite([
             Texture.from("BIdle1"),
             Texture.from("BIdle2"),
             Texture.from("BIdle3"),
@@ -31,22 +31,22 @@ export class Player extends PhysicsContainer implements IHitbox {
             Texture.from("BIdle6")
         ], false );
 
-        this.beetleIdle.anchor.set(0.5);
-        this.beetleIdle.play();
-        this.beetleIdle.animationSpeed = 0.14;
+        this.bIdle.anchor.set(0.5);
+        this.bIdle.play();
+        this.bIdle.animationSpeed = 0.14;
 
         // Walk
-        this.beetleWalk = new AnimatedSprite([  // *
+        this.bWalk = new AnimatedSprite([
             Texture.from("BWalk1"),
             Texture.from("BWalk2")
         ], true );
 
-        this.beetleWalk.anchor.set(0.5);  // *
-        this.beetleWalk.play();  // *
-        this.beetleWalk.animationSpeed = 0.14;  // *
+        this.bWalk.anchor.set(0.5);
+        this.bWalk.play();
+        this.bWalk.animationSpeed = 0.14;
 
         // Roll / Rueda
-        this.beetleRoll = new AnimatedSprite([  // *
+        this.bRoll = new AnimatedSprite([
             Texture.from("BRoll1"),
             Texture.from("BRoll2"),
             Texture.from("BRoll3"),
@@ -55,11 +55,11 @@ export class Player extends PhysicsContainer implements IHitbox {
             Texture.from("BRoll6")
         ], true );
 
-        this.beetleRoll.anchor.set(0.5,0.43);
-        this.beetleRoll.play();
-        this.beetleRoll.animationSpeed = 0.2;
+        this.bRoll.anchor.set(0.5,0.43);
+        this.bRoll.play();
+        this.bRoll.animationSpeed = 0.2;
 
-        // Visualizar eje
+        //visualizar eje
         // const auxZero = new Graphics();
         // auxZero.beginFill(0x0000ff);
         // auxZero.drawCircle(0,0,1);
@@ -72,86 +72,79 @@ export class Player extends PhysicsContainer implements IHitbox {
         this.hitbox.x = -10;
         this.hitbox.y = -14;
 
-        this.addChild(this.beetleIdle);
-        this.addChild(this.beetleWalk);  // *
-        this.beetleWalk.visible = false;  // *
-        this.addChild(this.beetleRoll);  // *
-        this.beetleRoll.visible = false;  // *
+        this.addChild(this.bIdle);
+        this.addChild(this.bWalk);
+        this.addChild(this.bRoll);
+        this.bWalk.visible = false;
+        this.bRoll.visible = false;
         // this.addChild(auxZero);
-        this.beetleIdle.addChild(this.hitbox);
+        this.bIdle.addChild(this.hitbox);
 
-        this.acceleration.y = Player.GRAVITY;
+        this.acceleration.y = P1.GRAVITY;
 
-        Keyboard.down.on("Space", this.jump, this);
+        Keyb.down.on("Space", this.jump, this);
     }
 
     // destruir evento salto al destruir player
     public override destroy(options:any){
         super.destroy(options);
-        Keyboard.down.off("Space", this.jump);
+        Keyb.down.off("Space", this.jump);
     }
 
     public override update(deltaMS:number){
         super.update(deltaMS/1000); // 'super.update' llama al update del padre
-        this.beetleIdle.update(deltaMS / (1000/60));
+        this.bIdle.update(deltaMS / (1000/60));
 
-        if (Keyboard.state.get("Digit1")){  // ON/OFF rollState            
-            if (this.rollState == false){
-                this.rollState = true;
-                this.beetleIdle.visible = false;
-                this.beetleWalk.visible = false;
-                this.beetleRoll.visible = true;
-            } else {
-                this.rollState = false;
-                this.beetleRoll.visible = false;
-            }
-        }
+        // ON/OFF roll
+        Keyb.up.on("Digit1", ()=>{ this.roll == false ? this.roll = true : this.roll = false });
+        
+        Keyb.up.on("Digit2", ()=>{
+            super.x = 275;
+            super.y = 60; });
 
         // Movimiento lateral
-        if (Keyboard.state.get("ArrowRight")){
+        if (Keyb.state.get("ArrowRight")){
+            if (this.roll == false){
+                this.speed.x = P1.MOVE_SPEED;
+                this.bIdle.visible = false;
+                this.bWalk.visible = true;
+                this.bWalk.scale.x = -1;
 
-            if (this.rollState == false){  // *
-                this.speed.x = Player.MOVE_SPEED;
-                this.beetleIdle.visible = false;  // *
-                this.beetleWalk.visible = true;  // *
-                this.beetleWalk.scale.x = -1;  // *
-
-                if (Keyboard.up){
-                    this.beetleIdle.scale.x = -1;
+                if (Keyb.up){
+                    this.bIdle.scale.x = -1;
                 }
-            } else {  // (rollState = true)  // *
-                this.speed.x = Player.ROLL_SPEED;  // *
-                this.beetleIdle.visible = false;  // *
-                this.beetleRoll.visible = true;  // *
-                this.beetleRoll.scale.x = -1;  // *
+            } else {  // (roll = true)
+                this.speed.x = P1.ROLL_SPEED;
+                this.bIdle.visible = false;
+                this.bRoll.visible = true;
+                this.bRoll.scale.x = -1;
             }
-        } else if (Keyboard.state.get("ArrowLeft")){
+        } else if (Keyb.state.get("ArrowLeft")){
+            if (this.roll == false){
+                this.speed.x = -P1.MOVE_SPEED;
+                this.bIdle.visible = false;
+                this.bWalk.visible = true;
+                this.bWalk.scale.x = 1;
 
-            if (this.rollState == false){
-                this.speed.x = -Player.MOVE_SPEED;
-                this.beetleIdle.visible = false;  // *
-                this.beetleWalk.visible = true;  // *
-                this.beetleWalk.scale.x = 1;  // *
-
-                if (Keyboard.up){
-                    this.beetleIdle.scale.x = 1;
+                if (Keyb.up){
+                    this.bIdle.scale.x = 1;
                 }
-            } else {  // (rollState = true)  // *
-                this.speed.x = -Player.ROLL_SPEED;
-                this.beetleIdle.visible = false;  // *
-                this.beetleRoll.visible = true;  // *
-                this.beetleRoll.scale.x = 1;  // *
+            } else {  // (roll = true)
+                this.speed.x = -P1.ROLL_SPEED;
+                this.bIdle.visible = false;
+                this.bRoll.visible = true;
+                this.bRoll.scale.x = 1;
             }
         } else {
             this.speed.x = 0;
 
-            if (this.rollState == false){
-                this.beetleRoll.visible = false;  // *
-                this.beetleWalk.visible = false;  // *
-                this.beetleIdle.visible = true;  // *
-                } else {  // (rollState = true)  // *
-                    this.beetleIdle.visible = false;  // *
-                    this.beetleRoll.visible = true;
+            if (this.roll == false){
+                this.bRoll.visible = false;
+                this.bWalk.visible = false;
+                this.bIdle.visible = true;
+                } else {  //(rollState = true)
+                    this.bIdle.visible = false;
+                    this.bRoll.visible = true;
                 }
             }
         }
@@ -160,18 +153,14 @@ export class Player extends PhysicsContainer implements IHitbox {
     private jump(){
         if (this.canJump){
             this.canJump = false;
-            if (this.rollState == false){
-                this.speed.y = -285;
+            if (this.roll == false){
+                this.speed.y = -350; //salto normal
             } else {
-                this.speed.y = -150;
+                this.speed.y = -160; //salto bolita
                 this.break = true;
 
-                // Timer 'break':
-                setTimeout(()=>{ this.break = false }, 500);
-                
-                // setTimeout(function tenSeconds() {
-                //     console.log(“Ten Seconds!”);
-                // }, 10000);  // (en milisegundos)
+                // Timer 'break'
+                // setTimeout(()=>{ this.break = false; }, 460);
             }
         }
     }

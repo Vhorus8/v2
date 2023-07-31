@@ -1,7 +1,7 @@
 import { Application, Loader, SCALE_MODES, Ticker, settings } from 'pixi.js'
 import { assets } from './assets';
 import { TickerScene } from './escenas/TickerScene';
-import { Keyboard } from './utils/Keyboard';
+import { Keyb } from './utils/Keyboard';
 
 export const WIDTH = 540;
 export const HEIGHT = 540;
@@ -13,12 +13,12 @@ const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
 	resolution: window.devicePixelRatio || 1,
 	autoDensity: true,
-	backgroundColor: 0xB5F5E5,
+	backgroundColor: 0xECE9DA,
 	width: WIDTH,
 	height: HEIGHT
 });
 
-Keyboard.initialize();
+Keyb.initialize();
 
 // adaptar tamaño lienzo a ventana
 window.addEventListener("resize", ()=>{
