@@ -1,6 +1,6 @@
 import { Application, Loader, SCALE_MODES, Ticker, settings } from 'pixi.js'
 import { assets } from './assets';
-import { TickerScene } from './escenas/TickerScene';
+import { TickerSc } from './escenas/TickerScene';
 import { Keyb } from './utils/Keyboard';
 
 export const WIDTH = 540;
@@ -45,7 +45,7 @@ window.dispatchEvent(new Event("resize"));
 Loader.shared.add(assets);
 
 Loader.shared.onComplete.add(()=>{
-	const escena = new TickerScene();
+	const escena = new TickerSc();
 	app.stage.addChild(escena);
 
 	Ticker.shared.add(function(deltaFrame){

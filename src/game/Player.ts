@@ -99,7 +99,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
         Keyb.up.on("Digit1", ()=>{ this.roll == false ? this.roll = true : this.roll = false });
         
         Keyb.up.on("Digit2", ()=>{
-            super.x = 275;
+            super.x = 236;
             super.y = 60; });
 
         // Movimiento lateral

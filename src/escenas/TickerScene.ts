@@ -1,189 +1,126 @@
-import { Container } from "pixi.js";
+import { Container, Sprite, Texture } from "pixi.js";
 import { IUpdateable } from "../utils/IUpdateable";
 import { P1 } from "../game/Player";
-import { Brick, Platform } from "../game/Platform";
+import { Br, Pla } from "../game/Platform";
 import { HEIGHT, WIDTH } from "..";
 import { checkCollision } from "../game/IHitbox";
+import { Hb1 } from "../game/Bordes";
 
-export class TickerScene extends Container implements IUpdateable {
-
-    private beetle: P1;
-    private plats: Platform[];
-    private bricks: Brick[];
-    // private metal: IHitbox[];
-    // private bg: Sprite;
-    private world: Container;
-
+export class TickerSc extends Container implements IUpdateable {
+    private beet: P1;
+    private plas: Pla[];
+    private brs: Br[];
+    private w: Container; // World
     constructor(){
         super();
 
-        this.world = new Container();
-        this.plats = [];
-        this.bricks = [];
+        this.w = new Container();
+        let h1: Hb1 = new Hb1();
 
-        let brick = new Brick(); // Ladrillo
-        let plat = new Platform(); // Bloque metal
+        this.plas = [];
+        this.brs = [];
+
+        const bg: Sprite = new Sprite(Texture.from("Bg"));
+        this.w.addChild(bg);
 
     // piso 1:
-        plat = new Platform(); plat.position.set(236,181);
-        this.world.addChild(plat); this.plats.push(plat);
-
-        brick = new Brick(); brick.position.set(275,181);  // 0
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(314,181);  // 1
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(353,181);  // 2
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(392,181);  // 3
-        this.world.addChild(brick); this.bricks.push(brick);
+        let br = new Br(); br.position.set(58.5,247.5); this.w.addChild(br); this.brs.push(br);
+        let pla = new Pla(); pla.position.set(97.5,247.5); this.w.addChild(pla); this.plas.push(pla);
+        br = new Br(); br.position.set(136.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(175.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(214.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(253.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(292.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(331.5,247.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(370.5,247.5); this.w.addChild(br); this.brs.push(br);
     // piso 2:
-        brick = new Brick(); brick.position.set(80,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(119,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(158,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(197,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(236,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(275,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(314,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(353,220);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(392,220);
-        this.world.addChild(brick); this.bricks.push(brick);
+        br = new Br(); br.position.set(58.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(97.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(136.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(175.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(214.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(253.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(292.5,286.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(331.5,286.5); this.w.addChild(br); this.brs.push(br);
+        pla = new Pla(); pla.position.set(370.5,286.5); this.w.addChild(pla); this.plas.push(pla);
     // piso 3:
-        brick = new Brick(); brick.position.set(80,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(119,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(158,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(197,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(236,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(275,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(314,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(353,259);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(392,259);
-        this.world.addChild(brick); this.bricks.push(brick);
+        br = new Br(); br.position.set(58.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(97.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(136.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(175.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(214.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(253.5,325.5); this.w.addChild(br); this.brs.push(br);
+        pla = new Pla(); pla.position.set(292.5,325.5); this.w.addChild(pla); this.plas.push(pla);
+        br = new Br(); br.position.set(331.5,325.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(370.5,325.5); this.w.addChild(br); this.brs.push(br);
     // piso 4:
-        brick = new Brick(); brick.position.set(80,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(119,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(158,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(197,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(236,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(275,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(314,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(353,298);
-        this.world.addChild(brick); this.bricks.push(brick);
-
-        brick = new Brick(); brick.position.set(392,298);
-        this.world.addChild(brick); this.bricks.push(brick);
+        br = new Br(); br.position.set(58.5,364.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(97.5,364.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(136.5,364.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(175.5,364.5); this.w.addChild(br); this.brs.push(br);
+        pla = new Pla(); pla.position.set(214.5,364.5); this.w.addChild(pla); this.plas.push(pla);
+        pla = new Pla(); pla.position.set(253.5,364.5); this.w.addChild(pla); this.plas.push(pla);
+        br = new Br(); br.position.set(292.5,364.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(331.5,364.5); this.w.addChild(br); this.brs.push(br);
+        br = new Br(); br.position.set(370.5,364.5); this.w.addChild(br); this.brs.push(br);
         
         // Player
-        this.beetle = new P1();
-        this.beetle.x = 275;
-        this.beetle.y = 60;
+        this.beet = new P1();
+        this.beet.x = 275;
+        this.beet.y = 60;
         
-        this.addChild(this.world);
-        this.addChild(this.beetle);
+        this.addChild(this.w);
+        this.addChild(h1);
+        this.addChild(this.beet);
     }
 
     public update(deltaTime: number, _deltaFrame: number): void {
-        this.beetle.update(deltaTime);  // update animation
+        this.beet.update(deltaTime);  // update animation
         
-        for (let plat of this.plats){
-            const overlap = checkCollision(this.beetle, plat);
+        for (let pla of this.plas){
+            const overlap = checkCollision(this.beet, pla);
             if (overlap != null){
-                this.beetle.separate(overlap, plat.position);
-                if (this.beetle.y <= plat.y - 34 && this.beetle.break == true){
-                    this.beetle.break = false;
-                    this.beetle.speed.y = -90;
-                }
-            }
-        }
+                this.beet.separate(overlap, pla.position);
+                if (this.beet.y <= pla.y - 34 && this.beet.break == true){
+                    this.beet.break = false;
+                    this.beet.speed.y = -90;
+                }}}
 
         // Eventos brick
-        for (let brick of this.bricks){
-            const overlap = checkCollision(this.beetle, brick);
+        for (let br of this.brs){
+            const overlap = checkCollision(this.beet, br);
             if (overlap != null){  // (si hay colisión)
 
-                if (this.beetle.roll == false){
-                    this.beetle.separate(overlap, brick.position);
+                if (this.beet.roll == false){
+                    this.beet.separate(overlap, br.position);
 
-                } else if (this.beetle.roll == true){
-                    if (this.beetle.y > brick.y - 34){  //Rueda: colisión lateral
-                        const brickPos = this.bricks.indexOf(brick);
-                        this.world.removeChild(brick);
-                        this.bricks.splice(brickPos,1);  // eliminar (o reemplazar) del array
-                        this.beetle.speed.y = -180;
+                } else if (this.beet.roll == true){
+                    const brPos = this.brs.indexOf(br);
+                    if (this.beet.y > br.y - 34){  //Rueda: colisión lateral
+                        this.beet.speed.y = -160;
+                        this.w.removeChild(br);
+                        this.brs.splice(brPos,1);  // eliminar (o reemplazar) del array
                         // agregar rebote lateral?
-                    } else if (this.beetle.y <= brick.y - 34 && this.beetle.break == true){  //salto Rueda: colisión superior
-                        const brickPos = this.bricks.indexOf(brick);
-                        this.world.removeChild(brick);
-                        this.bricks.splice(brickPos,1);  // eliminar (o reemplazar) del array
-                        this.beetle.break = false;
-                        this.beetle.speed.y = -200;
+
+                    } else if (this.beet.y <= br.y - 34 && this.beet.break == true){  //salto Rueda: colisión superior
+                        this.beet.break = false;
+                        this.w.removeChild(br);
+                        this.brs.splice(brPos,1);  // eliminar (o reemplazar) del array
+                        this.beet.speed.y = -160;
                     } else {
-                        this.beetle.separate(overlap, brick.position);
-                    }
-                }
-            }
-        }
+                        this.beet.separate(overlap, br.position);
+                    }}}}
 
         // límite bordes laterales
-        if (this.beetle.x > WIDTH){
-            this.beetle.x = WIDTH;
-        } else if (this.beetle.x < 0){
-            this.beetle.x = 0;
-        }
+        if (this.beet.x > WIDTH){
+            this.beet.x = WIDTH;
+        } else if (this.beet.x < 0){ this.beet.x = 0; }
 
         // límite borde inferior
-        if (this.beetle.y > HEIGHT - 19){
-            this.beetle.y = HEIGHT - 19;
-            this.beetle.speed.y = 0;
-            this.beetle.canJump = true;
+        if (this.beet.y > HEIGHT - 19){
+            this.beet.y = HEIGHT - 19;
+            this.beet.speed.y = 0;
+            this.beet.canJump = true;
         }
 
         // this.world.x = -this.beetle.x * this.worldTransform.a + WIDTH / 4; // worldTransform: transformación GLOBAL d un objeto, en forma de matriz (la escala en X está en A, y la escala en Y está en D)

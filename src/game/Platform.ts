@@ -1,50 +1,42 @@
 import { Container, Graphics, Rectangle, Sprite } from "pixi.js";
 import { IHitbox } from "./IHitbox";
 
-// Bloque metálico
-export class Platform extends Container implements IHitbox {
-
-    private hitbox: Graphics;
-    
+// Bloque metal
+export class Pla extends Container implements IHitbox {
+    private hb: Graphics;    
     constructor(){
         super();
-
         const spr = Sprite.from("Metal");
         spr.anchor.set(0.5);
         this.addChild(spr);
         
-        this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x0000ff, 0.01);
-        this.hitbox.drawRect(-19.5,-20,39,39);
-        this.hitbox.endFill();
-        this.addChild(this.hitbox);
-    }
-    
+        this.hb = new Graphics();
+        this.hb.beginFill(0x0000ff, 0.01);
+        this.hb.drawRect(-19.5,-20,39,39);
+        this.hb.endFill();
+        this.addChild(this.hb);
+    }    
     public getHitbox(): Rectangle {
-        return this.hitbox.getBounds();
+        return this.hb.getBounds();
     }
 }
 
-// Ladrillo
-export class Brick extends Container implements IHitbox {
-    
-    private hitbox: Graphics;
-    
+// Brick
+export class Br extends Container implements IHitbox {    
+    private hb: Graphics;    
     constructor(){
         super();
-
         const spr = Sprite.from("Brick");
         spr.anchor.set(0.5);
         this.addChild(spr);
         
-        this.hitbox = new Graphics();
-        this.hitbox.beginFill(0x0000ff, 0.01);
-        this.hitbox.drawRect(-19.5,-20,39,39);
-        this.hitbox.endFill();
-        this.addChild(this.hitbox);
+        this.hb = new Graphics();
+        this.hb.beginFill(0x0000ff, 0.01);
+        this.hb.drawRect(-19.5,-20,39,39);
+        this.hb.endFill();
+        this.addChild(this.hb);
     }
-
     public getHitbox(): Rectangle {
-        return this.hitbox.getBounds()
+        return this.hb.getBounds()
     }
 }
