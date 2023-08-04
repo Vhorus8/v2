@@ -12,7 +12,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
     private bIdle: AnimatedSprite;
     private bWalk: AnimatedSprite;
     private bRoll: AnimatedSprite;
-    private hitbox: Graphics;
+    private hb: Graphics;
 
     public canJump = true;
     public roll = false;  // al juntar 10 monedas, se activa x 8 seg.
@@ -59,26 +59,20 @@ export class P1 extends PhysicsContainer implements IHitbox {
         this.bRoll.play();
         this.bRoll.animationSpeed = 0.2;
 
-        //visualizar eje
-        // const auxZero = new Graphics();
-        // auxZero.beginFill(0x0000ff);
-        // auxZero.drawCircle(0,0,1);
-        // auxZero.endFill();
-
-        this.hitbox = new Graphics();
-        this.hitbox.beginFill(0xff00ff, 0.01);
-        this.hitbox.drawRect(0,0,20,33);
-        this.hitbox.endFill();
-        this.hitbox.x = -10;
-        this.hitbox.y = -14;
+        this.hb = new Graphics();
+        this.hb.beginFill(0xff00ff);
+        this.hb.drawRect(0,0,20,33);
+        this.hb.visible = false;
+        this.hb.endFill();
+        this.hb.x = -10;
+        this.hb.y = -14;
 
         this.addChild(this.bIdle);
         this.addChild(this.bWalk);
         this.addChild(this.bRoll);
         this.bWalk.visible = false;
         this.bRoll.visible = false;
-        // this.addChild(auxZero);
-        this.bIdle.addChild(this.hitbox);
+        this.bIdle.addChild(this.hb);
 
         this.acceleration.y = P1.GRAVITY;
 
@@ -96,7 +90,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
         this.bIdle.update(deltaMS / (1000/60));
 
         // ON/OFF roll
-        Keyb.up.on("Digit1", ()=>{ this.roll == false ? this.roll = true : this.roll = false });
+        Keyb.up.on("Digit1", ()=>{ this.roll==false ? this.roll=true : this.roll=false });
         
         Keyb.up.on("Digit2", ()=>{
             super.x = 236;
@@ -113,7 +107,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
                 if (Keyb.up){
                     this.bIdle.scale.x = -1;
                 }
-            } else {  // (roll = true)
+            } else {  // roll = true
                 this.speed.x = P1.ROLL_SPEED;
                 this.bIdle.visible = false;
                 this.bRoll.visible = true;
@@ -129,7 +123,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
                 if (Keyb.up){
                     this.bIdle.scale.x = 1;
                 }
-            } else {  // (roll = true)
+            } else {  // roll = true
                 this.speed.x = -P1.ROLL_SPEED;
                 this.bIdle.visible = false;
                 this.bRoll.visible = true;
@@ -142,7 +136,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
                 this.bRoll.visible = false;
                 this.bWalk.visible = false;
                 this.bIdle.visible = true;
-                } else {  //(rollState = true)
+                } else {
                     this.bIdle.visible = false;
                     this.bRoll.visible = true;
                 }
@@ -166,7 +160,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
     }
 
     public getHitbox(): Rectangle {
-        return this.hitbox.getBounds()
+        return this.hb.getBounds()
     }
 
     // Separar

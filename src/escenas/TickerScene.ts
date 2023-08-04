@@ -4,7 +4,7 @@ import { P1 } from "../game/Player";
 import { Br, Pla } from "../game/Platform";
 import { HEIGHT, WIDTH } from "..";
 import { checkCollision } from "../game/IHitbox";
-import { Hb1 } from "../game/Bordes";
+// import { Hb1 } from "../game/Bordes";
 
 export class TickerSc extends Container implements IUpdateable {
     private beet: P1;
@@ -15,7 +15,7 @@ export class TickerSc extends Container implements IUpdateable {
         super();
 
         this.w = new Container();
-        let h1: Hb1 = new Hb1();
+        // let h1: Hb1 = new Hb1();
 
         this.plas = [];
         this.brs = [];
@@ -70,7 +70,7 @@ export class TickerSc extends Container implements IUpdateable {
         this.beet.y = 60;
         
         this.addChild(this.w);
-        this.addChild(h1);
+        // this.addChild(h1);
         this.addChild(this.beet);
     }
 
@@ -95,17 +95,18 @@ export class TickerSc extends Container implements IUpdateable {
                     this.beet.separate(overlap, br.position);
 
                 } else if (this.beet.roll == true){
-                    const brPos = this.brs.indexOf(br);
                     if (this.beet.y > br.y - 34){  //Rueda: colisión lateral
+                        const brPos = this.brs.indexOf(br);
+                        this.brs.splice(brPos,1);  // eliminar (o reemplazar) del array
                         this.beet.speed.y = -160;
                         this.w.removeChild(br);
-                        this.brs.splice(brPos,1);  // eliminar (o reemplazar) del array
                         // agregar rebote lateral?
-
-                    } else if (this.beet.y <= br.y - 34 && this.beet.break == true){  //salto Rueda: colisión superior
+                        
+                    } else if (this.beet.y <= br.y - 34 && this.beet.break == true){  //salto Rueda: colisión superior (38.5 distancia vertical justa)
                         this.beet.break = false;
-                        this.w.removeChild(br);
+                        const brPos = this.brs.indexOf(br);
                         this.brs.splice(brPos,1);  // eliminar (o reemplazar) del array
+                        this.w.removeChild(br);
                         this.beet.speed.y = -160;
                     } else {
                         this.beet.separate(overlap, br.position);
