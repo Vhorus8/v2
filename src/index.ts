@@ -7,7 +7,7 @@ export const WIDTH = 540;
 export const HEIGHT = 540;
 
 settings.ROUND_PIXELS = true;
-settings.SCALE_MODE = SCALE_MODES.LINEAR;
+settings.SCALE_MODE = SCALE_MODES.NEAREST;
 
 const app = new Application({
 	view: document.getElementById("pixi-canvas") as HTMLCanvasElement,

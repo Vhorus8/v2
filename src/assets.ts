@@ -32,5 +32,6 @@ export const assets = [
     {url: "./sprites/meta.png", name: "Meta"},
 
     // fondo
-    {url:"./Compo-01.png", name: "Bg"}
+    {url:"./Compo-01.png", name: "Bg"},
+    {url:"./borde1.png", name: "Borde"}
 ]
