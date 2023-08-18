@@ -1,9 +1,9 @@
-import { AnimatedSprite, Graphics, ObservablePoint, Rectangle, Texture } from "pixi.js";
-import { PhysicsContainer } from "./PhysicsContainer";
+import { AnimatedSprite, ObservablePoint, Rectangle, Sprite, Texture } from "pixi.js";
+import { Phys } from "./Physics";
 import { IHitbox } from "./IHitbox";
 import { Keyb } from "../utils/Keyboard";
 
-export class P1 extends PhysicsContainer implements IHitbox {
+export class P1 extends Phys implements IHitbox {
 
     private static readonly GRAVITY = 700;
     private static readonly MOVE_SPEED = 210;
@@ -12,7 +12,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
     private bIdle: AnimatedSprite;
     private bWalk: AnimatedSprite;
     private bRoll: AnimatedSprite;
-    private hb: Graphics;
+    private hb: Sprite;
 
     public canJump = true;
     public roll = false;  // al juntar 10 monedas, se activa x 8 seg.
@@ -44,6 +44,7 @@ export class P1 extends PhysicsContainer implements IHitbox {
         this.bWalk.anchor.set(0.5);
         this.bWalk.play();
         this.bWalk.animationSpeed = 0.14;
+        this.bWalk.visible = false;
 
         // Roll / Rueda
         this.bRoll = new AnimatedSprite([
@@ -54,25 +55,22 @@ export class P1 extends PhysicsContainer implements IHitbox {
             Texture.from("BRoll5"),
             Texture.from("BRoll6")
         ], true );
-
+        
         this.bRoll.anchor.set(0.5,0.43);
         this.bRoll.play();
         this.bRoll.animationSpeed = 0.2;
+        this.bRoll.visible = false;
 
-        this.hb = new Graphics();
-        this.hb.beginFill(0xff00ff);
-        this.hb.drawRect(0,0,20,33);
+        // Hitbox
+        this.hb = new Sprite(Texture.from("Hb"));
         this.hb.visible = false;
-        this.hb.endFill();
         this.hb.x = -10;
         this.hb.y = -14;
 
         this.addChild(this.bIdle);
         this.addChild(this.bWalk);
         this.addChild(this.bRoll);
-        this.bWalk.visible = false;
-        this.bRoll.visible = false;
-        this.bIdle.addChild(this.hb);
+        this.addChild(this.hb);
 
         this.acceleration.y = P1.GRAVITY;
 
@@ -163,7 +161,6 @@ export class P1 extends PhysicsContainer implements IHitbox {
         return this.hb.getBounds()
     }
 
-    // Separar
     public separate(overlap: Rectangle, plat: ObservablePoint<any>){
         if (overlap.width < overlap.height){
             if (this.x > plat.x){

@@ -18,6 +18,8 @@ export const assets = [
     {url: "./sprites/beetle-roll5.png", name: "BRoll5"},
     {url: "./sprites/beetle-roll6.png", name: "BRoll6"},
 
+    {url: "./sprites/hitbox-beetle.jpg", name: "Hb"},
+
     // enemies
     {url: "./sprites/enemy-walk1.png", name: "EWalk1"},
     {url: "./sprites/enemy-walk2.png", name: "EWalk2"},

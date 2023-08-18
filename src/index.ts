@@ -25,7 +25,7 @@ window.addEventListener("resize", ()=>{
 	
 	const scaleX = window.innerWidth / app.screen.width;
 	const scaleY = window.innerHeight / app.screen.height;
-	const scale = Math.min(scaleX,scaleY);
+	const scale = Math.min(scaleX,scaleY); // floor ?
 	
 	const gameWidth = Math.round(app.screen.width * scale);
 	const gameHeight = Math.round(app.screen.height * scale);
@@ -43,14 +43,12 @@ window.dispatchEvent(new Event("resize"));
 
 
 Loader.shared.add(assets);
-
 Loader.shared.onComplete.add(()=>{
-	const escena = new TickerSc();
-	app.stage.addChild(escena);
+	const esc1 = new TickerSc();
+	app.stage.addChild(esc1);
 
 	Ticker.shared.add(function(deltaFrame){
-		escena.update(Ticker.shared.deltaMS, deltaFrame);
+		esc1.update(Ticker.shared.deltaMS, deltaFrame);
 	});
 });
-
 Loader.shared.load();

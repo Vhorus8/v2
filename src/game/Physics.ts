@@ -1,9 +1,9 @@
 import { Container, Point } from "pixi.js";
 
-export class PhysicsContainer extends Container {
+export class Phys extends Container {
 
-    public speed:Point = new Point();
-    public acceleration:Point = new Point();
+    public speed = new Point();
+    public acceleration = new Point();
     public update(deltaSeconds:number){
         this.x += this.speed.x * deltaSeconds + 1/2 * this.acceleration.x * Math.pow(deltaSeconds,2); // Verlet
         this.y += this.speed.y * deltaSeconds + 1/2 * this.acceleration.y * Math.pow(deltaSeconds,2);

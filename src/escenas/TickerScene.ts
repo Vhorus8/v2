@@ -4,22 +4,25 @@ import { P1 } from "../game/Player";
 import { Borde, Br, Pla } from "../game/Platform";
 import { HEIGHT, WIDTH } from "..";
 import { checkCollision } from "../game/IHitbox";
+import { Ene } from "../game/Enemy";
 
 export class TickerSc extends Container implements IUpdateable {
     private beet: P1;
+    private ene: Ene;
+    private enes: Ene[];
     private plas: Pla[];
     private brs: Br[];
     private bors: Borde[];
     private w: Container; // World
+
     constructor(){
         super();
 
         this.w = new Container();
-
         this.bors = [];
         this.plas = [];
         this.brs = [];
-
+        this.enes = [];
         const bg: Sprite = new Sprite(Texture.from("Bg"));
         this.w.addChild(bg);
 
@@ -70,15 +73,22 @@ export class TickerSc extends Container implements IUpdateable {
         
         // Player
         this.beet = new P1();
-        this.beet.x = 475;
-        this.beet.y = 120;
+        this.beet.x = 455;
+        this.beet.y = 90;
         
         this.addChild(this.w);
         this.addChild(this.beet);
+
+        // Enemy
+        this.ene = new Ene();
+        this.ene.position.set(20,125);
+        this.addChild(this.ene);
+        this.enes.push(this.ene);
     }
 
     public update(deltaTime: number, _deltaFrame: number): void {
         this.beet.update(deltaTime);  // update animation
+        this.ene.update(deltaTime);
         
         // Eventos brick
         for (let br of this.brs){
@@ -133,5 +143,65 @@ export class TickerSc extends Container implements IUpdateable {
 
         // this.world.x = -this.beetle.x * this.worldTransform.a + WIDTH / 4; // worldTransform: transformación GLOBAL d un objeto, en forma de matriz (la escala en X está en A, la escala en Y está en D)
         // this.bg.tilePosition.x = this.world.x * 0.3; // tilePosition: dónde empieza la textura del tilingSprite
+    
+        // Enemy
+        for (let bor of this.bors){
+            const overlap = checkCollision(this.ene, bor);
+            if (overlap != null){
+                this.ene.separate(overlap, bor.position);
+                if (this.ene.y > bor.y - 192 && this.ene.y < bor.y + 192){
+                    if (this.ene.x < bor.x){
+                        this.ene.speed.x = -Ene.ESPEED;
+                        this.ene.eWalk.scale.x = -1;
+                    }
+                    else if (this.ene.x > bor.x){
+                        this.ene.speed.x = Ene.ESPEED;
+                        this.ene.eWalk.scale.x = 1;
+                    }}}}
+
+        for (let br of this.brs){
+            const overlap = checkCollision(this.ene, br);
+            if (overlap != null){
+                this.ene.separate(overlap, br.position);
+                if (this.ene.y > br.y - 33 && this.ene.y < br.y + 33){
+                    if (this.ene.x < br.x){
+                        this.ene.speed.x = -Ene.ESPEED;
+                        this.ene.eWalk.scale.x = -1;
+                    }
+                    else if (this.ene.x > br.x){
+                        this.ene.speed.x = Ene.ESPEED;
+                        this.ene.eWalk.scale.x = 1;
+                    }}}}
+
+        for (let pla of this.plas){
+            const overlap = checkCollision(this.ene, pla);
+            if (overlap != null){
+                this.ene.separate(overlap, pla.position);
+                if (this.ene.y > pla.y - 33 && this.ene.y < pla.y + 33){
+                    if (this.ene.x < pla.x){
+                        this.ene.speed.x = -Ene.ESPEED;
+                        this.ene.eWalk.scale.x = -1;
+                    }
+                    else if (this.ene.x > pla.x){
+                        this.ene.speed.x = Ene.ESPEED;
+                        this.ene.eWalk.scale.x = 1;
+                    }}}}
+        
+        // límite bordes laterales
+        if (this.ene.x > WIDTH){
+            this.ene.x = WIDTH;
+            this.ene.speed.x = -Ene.ESPEED;
+            this.ene.eWalk.scale.x = -1;
+        } else if (this.ene.x < 0){
+            this.ene.x = 0;
+            this.ene.speed.x = Ene.ESPEED;
+            this.ene.eWalk.scale.x = 1;
+        }
+
+        // límite borde inferior
+        if (this.ene.y > HEIGHT - 58){
+            this.ene.y = HEIGHT - 58;
+            this.ene.speed.y = 0;
+        }
     }
 }
