@@ -111,6 +111,36 @@ export class TickerSc extends Container implements IUpdateable {
                         this.w.removeChild(br);
                     }}}}
 
+        // Colisión enemigos     // setTimeout(()=>{ this.beet.break = false; }, 460);  * * *
+        for (let ene of this.enes){
+            const overlap = checkCollision(this.beet, ene);
+            if (overlap != null){
+                if (this.beet.roll == true){
+                    let enePos = this.enes.indexOf(ene);
+                    this.enes.splice(enePos,1);
+                    this.removeChild(ene);
+                }
+                else if (this.beet.invu == false){
+                    if (this.beet.y < ene.y - 25 && this.beet.x < ene.x + 20 && this.beet.x > ene.x - 20){  // colisión desde arriba
+                        let enePos = this.enes.indexOf(ene);
+                        this.enes.splice(enePos,1);
+                        this.removeChild(ene);  // this.w.removeChild(ene);
+                        this.beet.speed.y = -160;
+                    }
+                    else {   // toda otra colisión
+                        // bajar vida Beetle * * *
+                        this.beet.invu = true;
+                        setTimeout(()=>{ this.beet.invu = false; this.beet.visible = true; }, 2000);
+                        // titilar (visible/invisible, tint?) * * *
+                        this.beet.visible = false;  // provisorio*
+                        let eneSpeed = this.ene.speed.x;
+                        this.ene.speed.x = 0;
+                        setTimeout(()=>{ this.ene.speed.x = eneSpeed; }, 2000);
+                    }
+                }
+            }
+        }
+        
         for (let pla of this.plas){
             const overlap = checkCollision(this.beet, pla);
             if (overlap != null){

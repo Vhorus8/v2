@@ -17,6 +17,7 @@ export class P1 extends Phys implements IHitbox {
     public canJump = true;
     public roll = false;  // al juntar 10 monedas, se activa x 8 seg.
     public break = false;
+    public invu = false;  // "invulnerable"
 
     constructor(){
         super();
@@ -65,7 +66,7 @@ export class P1 extends Phys implements IHitbox {
         this.hb = new Sprite(Texture.from("Hb"));
         this.hb.visible = false;
         this.hb.x = -10;
-        this.hb.y = -14;
+        this.hb.y = -14;  // del centro hasta abajo hay 19px
 
         this.addChild(this.bIdle);
         this.addChild(this.bWalk);
