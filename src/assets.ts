@@ -41,6 +41,8 @@ export const assets = [
     // Ui
     {url: "./ui/boton 1.png", name: "Button1"},
     {url: "./ui/boton 1-hover.png", name: "Button1Over"},
-    {url: "./ui/boton 1-pressed.png", name: "Button1Down"}
+    {url: "./ui/boton 1-pressed.png", name: "Button1Down"},
+
+    {url: "./fonts/Aller_Rg.ttf", name: "MiFuente"}
 
 ]

@@ -57,7 +57,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         
         const bg: Sprite = new Sprite(Texture.from("Bg"));
         this.w.addChild(bg);
-
+        
         // bordes
         let bor = new Borde(); bor.position.set(-41, 345); this.w.addChild(bor); this.bors.push(bor);
         bor = new Borde(); bor.position.set(470, 384); this.w.addChild(bor); this.bors.push(bor);
@@ -141,7 +141,8 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
 
         // Texto (vida?, rollStep?):
         const tStyle = new TextStyle({
-            fontSize: 20
+            fontSize: 20,
+            fontFamily: "MiFuente"
         });
         this.t = new Text(this.beet.life, tStyle);
 
@@ -149,6 +150,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         this.addChild(this.w);
         this.addChild(this.beet);
         this.addChild(this.t);
+        // this.w.addChild(this.t);
         
         this.spawnEnemy();
         
@@ -159,6 +161,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
     public update( frame:number ) {    // (video Clase 14)     frame:number, deltaMS:number
 
         this.beet.update(frame);
+        this.t.text = this.beet.life;    // actualizar stat 'vida'
 
         // this.fire.update(deltaMS/1000)    // actualiza las partículas con deltaMS/1000 (segundos)
 
