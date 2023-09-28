@@ -1,3 +1,4 @@
+
 export const assets = [
 
     // Beetle
@@ -34,6 +35,12 @@ export const assets = [
     {url: "./sprites/meta.png", name: "Meta"},
 
     // fondo
-    {url:"./Compo-01.png", name: "Bg"},
-    {url:"./borde1.png", name: "Borde"}
+    {url: "./Compo-01.png", name: "Bg"},
+    {url: "./borde1.png", name: "Borde"},
+
+    // Ui
+    {url: "./ui/boton 1.png", name: "Button1"},
+    {url: "./ui/boton 1-hover.png", name: "Button1Over"},
+    {url: "./ui/boton 1-pressed.png", name: "Button1Down"}
+
 ]

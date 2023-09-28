@@ -1,35 +1,41 @@
 import { utils } from "pixi.js";
 
-export class Keyb {
 
-    public static readonly state: Map<string, boolean> = new Map();
+export class Keyboard {
+
+    public static readonly state: Map <string, boolean> = new Map();
     public static readonly down: utils.EventEmitter = new utils.EventEmitter();
     public static readonly up: utils.EventEmitter = new utils.EventEmitter();
 
-    private constructor(){} //para no poder instanciarla desde afuera (new)
+    private constructor(){}   //para no poder instanciarla desde afuera (new)
 
-    private static initialized:boolean = false;
+    private static initialized: boolean = false;
+
+
     public static initialize():void {
-        if (Keyb.initialized){
+        if (Keyboard.initialized){
             return;
         }
-
-        Keyb.initialized = true; //con las estáticas hay q usar el nombre d la clase para accesarla (en lugar d 'this')
-        document.addEventListener("keydown", Keyb.onKeyDown);
-        document.addEventListener("keyup", Keyb.onKeyUp);
+        Keyboard.initialized = true;    // con las estáticas hay q usar el nombre d la clase para accesarla (en vez d 'this')
+        document.addEventListener("keydown", Keyboard.onKeyDown);
+        document.addEventListener("keyup", Keyboard.onKeyUp);
     }
 
-    private static onKeyDown(e:KeyboardEvent){  // "e" de "evento"
-        if (Keyb.state.get(e.code) != true){
-            Keyb.down.emit(e.code);
 
-            // console.log(e); // ver Código Tecla
+    private static onKeyDown( e:KeyboardEvent ) {    // 'e' de "evento"
+
+        if (Keyboard.state.get(e.code) != true) {
+            Keyboard.down.emit(e.code);
+            // console.log(e);  // ver Código Tecla
         }
-        Keyb.state.set(e.code, true);
+        Keyboard.state.set(e.code, true);
     }
 
-    private static onKeyUp(e:KeyboardEvent){
-        Keyb.up.emit(e.code);
-        Keyb.state.set(e.code, false);
+
+    private static onKeyUp( e:KeyboardEvent ) {
+
+        Keyboard.up.emit(e.code);
+        Keyboard.state.set(e.code, false);
     }
+
 }
