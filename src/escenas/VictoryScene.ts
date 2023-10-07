@@ -11,8 +11,8 @@ export class VictoryScene extends SceneBase {
     public update():void {}
 
     private bg: Sprite;
-    private buttonMouse1: Button;
-    private buttonMouse2: Button;
+    private buttonRetry: Button;
+    private buttonMenu: Button;
 
     constructor() {
         super();
@@ -25,40 +25,37 @@ export class VictoryScene extends SceneBase {
 
         
         // button 1 (Menu)
-        this.buttonMouse1 = new Button(
-            Texture.from("Button1"),
-            Texture.from("Button1Over"),
-            Texture.from("Button1Down"),
-            this.onButton1Click.bind(this)
+        this.buttonRetry = new Button(
+            Texture.from("Retry"),
+            Texture.from("RetryHover"),
+            Texture.from("RetryClicked"),
+            this.onRetryClick.bind(this)
         );
-
-        this.buttonMouse1.scale.set(0.2);
 
         // button 2 (Retry)
-        this.buttonMouse2 = new Button(
-            Texture.from("Button1"),
-            Texture.from("Button1Over"),
-            Texture.from("Button1Down"),
-            this.onButton2Click.bind(this)
+        this.buttonMenu = new Button(
+            Texture.from("Menu"),
+            Texture.from("MenuHover"),
+            Texture.from("MenuClicked"),
+            this.onMenuClick.bind(this)
         );
 
-        this.buttonMouse2.scale.set(0.2);
-        this.buttonMouse2.y = 80;
+        this.buttonMenu.y = 80;
 
         
         this.addChild(this.bg);
         this.addChild(dialog);
-        dialog.addChild(this.buttonMouse1);      // dialog.addChild(this.buttonMouse);
-        dialog.addChild(this.buttonMouse2);
+        dialog.addChild(this.buttonRetry);
+        dialog.addChild(this.buttonMenu);
 
     }
 
 
-    private onButton1Click() {     // : void {
+    private onMenuClick() {     // : void {
         SceneManager.changeScene(new MenuScene());     // go to Menu
     }
 
-    private onButton2Click() {     // : void {
+    private onRetryClick() {     // : void {
         SceneManager.changeScene(new TickerScene());     // go to Game (Retry)
     }
 

@@ -36,13 +36,23 @@ export const assets = [
 
     // fondo
     {url: "./Compo-01.png", name: "Bg"},
+    {url: "./Compo+Logo-01.png", name: "MenuScreen"},
     {url: "./borde1.png", name: "Borde"},
 
     // Ui
-    {url: "./ui/boton 1.png", name: "Button1"},
-    {url: "./ui/boton 1-hover.png", name: "Button1Over"},
-    {url: "./ui/boton 1-pressed.png", name: "Button1Down"},
+    {url: "./ui/Play.png", name: "Play"},
+    {url: "./ui/Play hover.png", name: "PlayHover"},
+    {url: "./ui/Play clicked.png", name: "PlayClicked"},
 
-    {url: "./fonts/Aller_Rg.ttf", name: "MiFuente"}
+    {url: "./ui/Retry.png", name: "Retry"},
+    {url: "./ui/Retry hover.png", name: "RetryHover"},
+    {url: "./ui/Retry clicked.png", name: "RetryClicked"},
+
+    {url: "./ui/Menu.png", name: "Menu"},
+    {url: "./ui/Menu hover.png", name: "MenuHover"},
+    {url: "./ui/Menu clicked.png", name: "MenuClicked"},
+
+
+    {url: "./fonts/PixelifySans-Regular.ttf", name: "MiFuente"}
 
 ]

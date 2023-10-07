@@ -6,7 +6,7 @@ import { Phys } from "./Physics";
 export class Enemy extends Phys implements IHitbox {
 
     private static readonly GRAVITY = 700;
-    public static readonly ESPEED = 140;
+    public static readonly ESPEED = 120;
     public eWalk: AnimatedSprite;
 
     constructor() {
@@ -20,8 +20,6 @@ export class Enemy extends Phys implements IHitbox {
         this.eWalk.anchor.set(0.5);
         this.eWalk.play();
         this.eWalk.animationSpeed = 0.08;
-
-        // this.eWalk.position.set(20,125);  // *
 
         this.addChild(this.eWalk);
         this.speed.x = Enemy.ESPEED;

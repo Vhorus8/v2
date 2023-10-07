@@ -30,7 +30,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         if (!this.stopSpawn) {
 
             setTimeout( ()=> {                
-                if (this.enemyCount < 3  &&  !this.stopSpawn) {     // *
+                if (this.enemyCount < 4  &&  !this.stopSpawn) {
 
                     this.enemyCount ++;
 
@@ -141,7 +141,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
 
         // Texto (vida?, rollStep?):
         const tStyle = new TextStyle({
-            fontSize: 20,
+            fontSize: 100,
             fontFamily: "MiFuente"
         });
         this.t = new Text(this.beet.life, tStyle);
@@ -150,7 +150,6 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         this.addChild(this.w);
         this.addChild(this.beet);
         this.addChild(this.t);
-        // this.w.addChild(this.t);
         
         this.spawnEnemy();
         
@@ -161,8 +160,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
     public update( frame:number ) {    // (video Clase 14)     frame:number, deltaMS:number
 
         this.beet.update(frame);
-        this.t.text = this.beet.life;    // actualizar stat 'vida'
-
+        this.t.text = this.beet.life;
         // this.fire.update(deltaMS/1000)    // actualiza las partículas con deltaMS/1000 (segundos)
 
 
@@ -178,7 +176,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                 {
                     if (this.beet.y > br.y - 34)    // Rueda: colisión lateral
                     {
-                        this.beet.speed.y = -160;
+                        this.beet.speed.y = -100;
                         let brPos = this.brs.indexOf(br);
                         this.brs.splice(brPos, 1);   // eliminar (o reemplazar) del array
                         this.w.removeChild(br);
@@ -187,7 +185,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                     else if ( this.beet.y <= br.y - 34  &&  this.beet.break == true )      //salto Rueda: colisión superior (distancia vertical justa: 38.5)
                     {
                         this.beet.break = false;
-                        this.beet.speed.y = -160;
+                        this.beet.speed.y = -100;
                         let brPos = this.brs.indexOf(br);
                         this.brs.splice(brPos, 1);   // eliminar (o reemplazar) del array
                         this.w.removeChild(br);
@@ -215,12 +213,16 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                 }
                 else if (this.beet.invu == false)
                 {
-                    if (this.beet.y < ene.y - 24 && this.beet.speed.y > 0)     // colisión desde arriba   ( this.beet.x < ene.x + 20  &&  this.beet.x > ene.x - 20 )
+                    if (this.beet.y < ene.y - 18 && this.beet.speed.y > 0)     // colisión desde arriba   ( this.beet.x < ene.x + 20  &&  this.beet.x > ene.x - 20 )
                     {
-                        this.beet.speed.y = -160;
+                        this.beet.invu = true;
                         let enePos = this.enemies.indexOf(ene);
                         this.enemies.splice(enePos, 1);
                         this.removeChild(ene);    // this.w.removeChild(ene);
+                        this.beet.speed.y = -170;
+                        setTimeout(()=>{
+                            this.beet.invu = false
+                        }, 300 );
                         this.enemyCount --;
                         this.beet.rollStep ++;
                     }

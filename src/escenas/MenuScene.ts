@@ -10,12 +10,12 @@ export class MenuScene extends SceneBase {
     public update():void {}
 
     private bg: Sprite;
-    private buttonMouse: Button;
+    private buttonPlay: Button;
 
     constructor() {
         super();
 
-        this.bg = new Sprite(Texture.from("Bg"));   // imagen provisoria*        
+        this.bg = new Sprite(Texture.from("MenuScreen"));
 
         const dialog = new Container();
         dialog.x = SceneManager.WIDTH / 2;
@@ -24,24 +24,25 @@ export class MenuScene extends SceneBase {
                 
             //     const btn = new Button(Texture.from("Button1"))    // Clase 14
             //     btn.on(Button.CLICKED_EVENT, this.goToGame, this)
+            
             //     btn.x = 200;
             //     btn.y = 200;
             //     this.addChild(btn);
 
         // button mouse
-        this.buttonMouse = new Button(
-            Texture.from("Button1"),
-            Texture.from("Button1Over"),
-            Texture.from("Button1Down"),
+        this.buttonPlay = new Button(
+            Texture.from("Play"),
+            Texture.from("PlayHover"),
+            Texture.from("PlayClicked"),
             this.onButtonClick.bind(this)
         );
 
-        this.buttonMouse.scale.set(0.2);
+        this.buttonPlay.y = 110;
 
         
         this.addChild(this.bg);
         this.addChild(dialog);
-        dialog.addChild(this.buttonMouse);      // dialog.addChild(this.buttonMouse);
+        dialog.addChild(this.buttonPlay);      // dialog.addChild(this.buttonMouse);
 
     }
 

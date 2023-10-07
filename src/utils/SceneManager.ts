@@ -38,7 +38,7 @@ export namespace SceneManager {
 
             const scaleX = window.innerWidth / app.screen.width;
             const scaleY = window.innerHeight / app.screen.height;
-            const scale = Math.min(scaleX, scaleY);  // floor ?
+            const scale = Math.min( scaleX, scaleY );         // 'floor' en vez d 'min' ?
 
             const gameWidth = Math.round(app.screen.width * scale);
             const gameHeight = Math.round(app.screen.height * scale);
@@ -52,6 +52,7 @@ export namespace SceneManager {
             app.view.style.marginLeft = marginHorizontal + "px";
             app.view.style.marginTop = marginVertical + "px";
         });
+
         window.dispatchEvent(new Event("resize"));
 
 

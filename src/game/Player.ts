@@ -10,7 +10,7 @@ export class P1 extends Phys implements IHitbox {
 
     private static readonly GRAVITY = 700;
     private static readonly MOVE_SPEED = 210;
-    private static readonly ROLL_SPEED = 340;
+    private static readonly ROLL_SPEED = 330;
 
     private bIdle: AnimatedSprite;
     private bWalk: AnimatedSprite;
@@ -192,7 +192,7 @@ export class P1 extends Phys implements IHitbox {
 
             setTimeout(() => {
                 this.roll = false;
-            }, 5000)
+            }, 6500);
         }
 
         // Vida
@@ -208,10 +208,10 @@ export class P1 extends Phys implements IHitbox {
         if (this.canJump) {
             this.canJump = false;
             if (this.roll == false) {
-                this.speed.y = -350;  //salto normal
+                this.speed.y = -320;  //salto normal
             }
             else {
-                this.speed.y = -160;  //salto bolita
+                this.speed.y = -115;  //salto bolita
                 this.break = true;
             }
         }
