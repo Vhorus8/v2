@@ -4,6 +4,7 @@ import { IHitbox } from "./IHitbox";
 import { Keyboard } from "../utils/Keyboard";
 import { TickerScene } from "../escenas/TickerScene";
 import { SceneManager } from "../utils/SceneManager";
+import { sound } from "@pixi/sound";
 
 
 export class P1 extends Phys implements IHitbox {
@@ -190,13 +191,21 @@ export class P1 extends Phys implements IHitbox {
             this.bIdle.visible = false;
             this.bWalk.visible = false;
 
+            const sndTransform = sound.find("Transform");
+            sndTransform.play({volume:0.6});
+
             setTimeout(() => {
+                sndTransform.play({volume:0.6});
                 this.roll = false;
-            }, 6500);
+            }, 4000 );
         }
 
         // Vida
         if (this.life <= 0) {
+            // sound.play("Defeat");
+            const sndDefeat = sound.find("Defeat");
+            // sndDefeat.volume = 0.5;
+            sndDefeat.play({volume:0.5});
             SceneManager.changeScene(new TickerScene());     // Pantalla derrota?
         }
 
@@ -211,7 +220,7 @@ export class P1 extends Phys implements IHitbox {
                 this.speed.y = -320;  //salto normal
             }
             else {
-                this.speed.y = -115;  //salto bolita
+                this.speed.y = -130;  //salto bolita
                 this.break = true;
             }
         }
@@ -224,6 +233,7 @@ export class P1 extends Phys implements IHitbox {
 
 
     public separate(overlap: Rectangle, plat: ObservablePoint<any>) {
+
         if (overlap.width < overlap.height) {
             if (this.x > plat.x) {
                 this.x += overlap.width;  //expulsar hacia la derecha

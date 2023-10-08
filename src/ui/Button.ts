@@ -1,3 +1,4 @@
+import { sound } from "@pixi/sound";
 import { Container, Sprite, Texture } from "pixi.js";
 
 
@@ -33,15 +34,19 @@ export class Button extends Container {
 
     private onMouseDown():void {
         this.spr.texture = this.down;
+        const sndClick = sound.find("Click");
+        sndClick.play({volume:0.3});
     };
 
     private onMouseUp():void {
         this.callback();
-        this.spr.texture = this.over;    // *
+        this.spr.texture = this.over;
     };
 
     private onMouseOver():void {
         this.spr.texture = this.over;
+        const sndHover = sound.find("Hover");
+        sndHover.play({volume:0.05});
     };
 
     private onMouseOut():void {

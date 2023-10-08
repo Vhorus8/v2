@@ -7,6 +7,7 @@
     "clean": "rimraf dist"
   },
   "dependencies": {
+    "@pixi/sound": "^4.4.0",
     "pixi.js": "^6.5.9"
   },
   "devDependencies": {

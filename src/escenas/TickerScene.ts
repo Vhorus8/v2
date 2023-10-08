@@ -7,6 +7,7 @@ import { Enemy } from "../game/Enemy";
 import { SceneManager } from "../utils/SceneManager";
 import { SceneBase } from "../utils/AbstractScene";
 import { VictoryScene } from "./VictoryScene";
+import { sound } from "@pixi/sound";
 
 
 export class TickerScene extends SceneBase implements IUpdateable {     // extends SceneBase (en vez d Container)
@@ -22,6 +23,8 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
     private w: Container;  // world
     private t: Text;
 
+    private sndMusic = sound.find("StageMusic");
+
 
     // Spawn enemies
     private stopSpawn = false;
@@ -30,7 +33,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         if (!this.stopSpawn) {
 
             setTimeout( ()=> {                
-                if (this.enemyCount < 4  &&  !this.stopSpawn) {
+                if (this.enemyCount < 8  &&  !this.stopSpawn) {
 
                     this.enemyCount ++;
 
@@ -41,13 +44,15 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                 }
                 this.spawnEnemy();
             },
-            2500 );
+            1000 );
         }
     }
 
 
     constructor() {
         super();
+
+        this.sndMusic.play({ singleInstance:true, loop:true, volume:0.08 });
 
         this.w = new Container();
         this.bors = [];
@@ -168,7 +173,8 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         for ( let br of this.brs ) {          
             
             const overlap = checkCollision( this.beet, br );
-
+            const sndBreak = sound.find("Break");
+            
             if ( overlap != null )
             {
                 this.beet.separate(overlap, br.position);
@@ -180,7 +186,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         let brPos = this.brs.indexOf(br);
                         this.brs.splice(brPos, 1);   // eliminar (o reemplazar) del array
                         this.w.removeChild(br);
-                        // agregar rebote lateral?
+                        sndBreak.play({volume:0.3});
                     }
                     else if ( this.beet.y <= br.y - 34  &&  this.beet.break == true )      //salto Rueda: colisión superior (distancia vertical justa: 38.5)
                     {
@@ -189,6 +195,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         let brPos = this.brs.indexOf(br);
                         this.brs.splice(brPos, 1);   // eliminar (o reemplazar) del array
                         this.w.removeChild(br);
+                        sndBreak.play({volume:0.3});
                     }
                 }
             }
@@ -202,6 +209,8 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
 
             // colisión beetle/enemies
             const overlap = checkCollision(this.beet, ene);
+            const sndKill = sound.find("Kill");
+
             if (overlap != null)
             {
                 if (this.beet.roll == true)     // (bolita)
@@ -210,6 +219,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                     this.enemies.splice(enePos, 1);
                     this.removeChild(ene);
                     this.enemyCount--;
+                    sndKill.play({volume:0.2});
                 }
                 else if (this.beet.invu == false)
                 {
@@ -225,6 +235,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         }, 300 );
                         this.enemyCount --;
                         this.beet.rollStep ++;
+                        sndKill.play({volume:0.2});
                     }
                     else {     // toda otra colisión                    
                         this.beet.invu = true;
@@ -235,9 +246,11 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         setTimeout( ()=> {
                             this.beet.invu = false;
                             ene.speed.x = eneSpeed;
-                        }, 2000 );
-                        
+                        }, 2500 );                        
                         this.beet.startBlinking();
+
+                        const sndDamage = sound.find("Damage");
+                        sndDamage.play({volume:0.3});
                     }
                 }
             }
@@ -245,6 +258,10 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
 
             // colisión Meta
             if (checkCollision(this.beet, this.meta)) {
+
+                this.sndMusic.stop();
+                const sndVictory = sound.find("Victory");
+                sndVictory.play({ volume:0.1 });
                 SceneManager.changeScene(new VictoryScene());     // Pantalla Victoria!
             }
 

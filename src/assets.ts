@@ -38,6 +38,7 @@ export const assets = [
     {url: "./Compo-01.png", name: "Bg"},
     {url: "./Compo+Logo-01.png", name: "MenuScreen"},
     {url: "./borde1.png", name: "Borde"},
+    {url: "./Unlock Scene.png", name: "Unlock"},
 
     // Ui
     {url: "./ui/Play.png", name: "Play"},
@@ -51,6 +52,18 @@ export const assets = [
     {url: "./ui/Menu.png", name: "Menu"},
     {url: "./ui/Menu hover.png", name: "MenuHover"},
     {url: "./ui/Menu clicked.png", name: "MenuClicked"},
+
+    //Sounds
+    {url: "./beetle mp3/Derrota.mp3", name: "Defeat"},
+    {url: "./beetle mp3/BreakBrick.mp3", name: "Break"},
+    {url: "./beetle mp3/Click.mp3", name: "Click"},
+    {url: "./beetle mp3/MouseHover.mp3", name: "Hover"},
+    {url: "./beetle mp3/Damage.mp3", name: "Damage"},
+    {url: "./beetle mp3/KillEnemy.mp3", name: "Kill"},
+    {url: "./beetle mp3/RollTransform.mp3", name: "Transform"},
+    {url: "./beetle mp3/Meta.mp3", name: "Victory"},
+    {url: "./beetle mp3/StageMusic.mp3", name: "StageMusic"},
+    {url: "./beetle mp3/Menu.mp3", name: "MenuMusic"},
 
 
     {url: "./fonts/PixelifySans-Regular.ttf", name: "MiFuente"}

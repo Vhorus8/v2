@@ -3,6 +3,7 @@ import { SceneBase } from "../utils/AbstractScene";
 import { SceneManager } from "../utils/SceneManager";
 import { TickerScene } from "./TickerScene";
 import { Button } from "../ui/Button";
+import { sound } from "@pixi/sound";
 
 
 export class MenuScene extends SceneBase {
@@ -11,9 +12,12 @@ export class MenuScene extends SceneBase {
 
     private bg: Sprite;
     private buttonPlay: Button;
+    private sndMenu = sound.find("MenuMusic");
 
     constructor() {
         super();
+
+        this.sndMenu.play({ loop:true, volume:0.05 });
 
         this.bg = new Sprite(Texture.from("MenuScreen"));
 
@@ -29,7 +33,7 @@ export class MenuScene extends SceneBase {
             //     btn.y = 200;
             //     this.addChild(btn);
 
-        // button mouse
+        // Play button
         this.buttonPlay = new Button(
             Texture.from("Play"),
             Texture.from("PlayHover"),
@@ -48,6 +52,7 @@ export class MenuScene extends SceneBase {
 
 
     private onButtonClick() {     // : void {
+        this.sndMenu.stop();
         SceneManager.changeScene(new TickerScene());     // Go to Game !
     }
 
