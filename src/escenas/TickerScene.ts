@@ -25,26 +25,23 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
 
     private sndMusic = sound.find("StageMusic");
 
-
     // Spawn enemies
     private stopSpawn = false;
 
     private spawnEnemy() {
-        if (!this.stopSpawn) {
 
+        if (!this.stopSpawn) {
             setTimeout( ()=> {                
                 if (this.enemyCount < 8  &&  !this.stopSpawn) {
 
                     this.enemyCount ++;
-
                     this.enemy = new Enemy();
                     this.enemy.position.set(20, 125);
                     this.addChild(this.enemy);
                     this.enemies.push(this.enemy);
                 }
                 this.spawnEnemy();
-            },
-            1000 );
+            }, 1000 );
         }
     }
 
@@ -141,7 +138,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         // Player
         this.beet = new P1();
         this.beet.x = 455;
-        this.beet.y = 90;
+        this.beet.y = 110;
 
 
         // Texto (vida?, rollStep?):
@@ -232,7 +229,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         this.beet.speed.y = -170;
                         setTimeout(()=>{
                             this.beet.invu = false
-                        }, 300 );
+                        }, 250 );
                         this.enemyCount --;
                         this.beet.rollStep ++;
                         sndKill.play({volume:0.2});
@@ -246,7 +243,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
                         setTimeout( ()=> {
                             this.beet.invu = false;
                             ene.speed.x = eneSpeed;
-                        }, 2500 );                        
+                        }, 1800 );
                         this.beet.startBlinking();
 
                         const sndDamage = sound.find("Damage");
@@ -397,5 +394,6 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         }
         
     }
+
 }
 

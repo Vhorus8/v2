@@ -37,6 +37,7 @@ export const assets = [
     // fondo
     {url: "./Compo-01.png", name: "Bg"},
     {url: "./Compo+Logo-01.png", name: "MenuScreen"},
+    {url: "./Compo Victory-01.png", name: "VictoryScreen"},
     {url: "./borde1.png", name: "Borde"},
     {url: "./Unlock Scene.png", name: "Unlock"},
 
@@ -61,9 +62,11 @@ export const assets = [
     {url: "./beetle mp3/Damage.mp3", name: "Damage"},
     {url: "./beetle mp3/KillEnemy.mp3", name: "Kill"},
     {url: "./beetle mp3/RollTransform.mp3", name: "Transform"},
+    {url: "./beetle mp3/MorphAlarm.mp3", name: "Alarm"},
     {url: "./beetle mp3/Meta.mp3", name: "Victory"},
     {url: "./beetle mp3/StageMusic.mp3", name: "StageMusic"},
     {url: "./beetle mp3/Menu.mp3", name: "MenuMusic"},
+    {url: "./beetle mp3/Victory.mp3", name: "VictoryMusic"},
 
 
     {url: "./fonts/PixelifySans-Regular.ttf", name: "MiFuente"}

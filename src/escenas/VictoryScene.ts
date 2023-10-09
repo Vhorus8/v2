@@ -4,6 +4,7 @@ import { SceneManager } from "../utils/SceneManager";
 import { Button } from "../ui/Button";
 import { MenuScene } from "./MenuScene";
 import { TickerScene } from "./TickerScene";
+import { sound } from "@pixi/sound";
 
 
 export class VictoryScene extends SceneBase {
@@ -17,31 +18,31 @@ export class VictoryScene extends SceneBase {
     constructor() {
         super();
 
-        this.bg = new Sprite(Texture.from("Bg"));    // imagen provisoria*        
+        const sndVictory = sound.find("VictoryMusic");
+        sndVictory.play({volume:0.2});
+
+        this.bg = new Sprite(Texture.from("VictoryScreen"));
 
         const dialog = new Container();
         dialog.x = SceneManager.WIDTH / 2;
         dialog.y = SceneManager.HEIGHT / 2;
 
         
-        // button 1 (Menu)
         this.buttonRetry = new Button(
             Texture.from("Retry"),
             Texture.from("RetryHover"),
             Texture.from("RetryClicked"),
             this.onRetryClick.bind(this)
         );
+        this.buttonRetry.y = 135;
 
-        // button 2 (Retry)
         this.buttonMenu = new Button(
             Texture.from("Menu"),
             Texture.from("MenuHover"),
             Texture.from("MenuClicked"),
             this.onMenuClick.bind(this)
         );
-
-        this.buttonMenu.y = 80;
-
+        this.buttonMenu.y = 60;
         
         this.addChild(this.bg);
         this.addChild(dialog);

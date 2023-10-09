@@ -27,10 +27,10 @@ export class P1 extends Phys implements IHitbox {
 
 
     public startBlinking() {
-        let blinkCount = 0;
 
+        let blinkCount = 0;
         const blink = ()=> {
-            if (blinkCount < 8) {      // 8 blinks            
+            if (blinkCount < 7) {      // 7 blinks
                 if (this.visible) {
                     this.visible = false;
                 } else {
@@ -38,8 +38,7 @@ export class P1 extends Phys implements IHitbox {
                     blinkCount ++;
                 }
                 setTimeout(blink, 50);    // blink duration: 50 ms
-            }
-            else {
+            } else {
                 this.visible = true;    // Restablecer visibilidad desp d titilar
             }
         }
@@ -48,10 +47,32 @@ export class P1 extends Phys implements IHitbox {
     }
 
 
+    private morphing() {        
+
+        let morphCount = 0;
+        const morph = ()=> {
+            if (morphCount < 5) {
+                if (this.scale.x == 1 && this.scale.y == 1) {
+                    this.scale.x = 0.7;
+                    this.scale.y = 0.7;
+                } else {
+                    this.scale.x = 1;
+                    this.scale.y = 1;
+                    morphCount ++;
+                }
+                setTimeout(morph, 20);    // 20 ms
+            } else {
+                this.scale.x = 1;
+                this.scale.y = 1;    // Restablecer tamaño
+            }
+        }
+        morph();
+    }
+
+
     constructor() {
         super();
 
-        // idle animation
         this.bIdle = new AnimatedSprite([
             Texture.from("BIdle1"),
             Texture.from("BIdle2"),
@@ -66,7 +87,6 @@ export class P1 extends Phys implements IHitbox {
         this.bIdle.animationSpeed = 0.14;
 
 
-        // walk animation
         this.bWalk = new AnimatedSprite([
             Texture.from("BWalk1"),
             Texture.from("BWalk2")
@@ -78,7 +98,6 @@ export class P1 extends Phys implements IHitbox {
         this.bWalk.visible = false;
 
 
-        // roll animation
         this.bRoll = new AnimatedSprite([
             Texture.from("BRoll1"),
             Texture.from("BRoll2"),
@@ -114,29 +133,51 @@ export class P1 extends Phys implements IHitbox {
     }
 
 
-    public override destroy(options: any) {    // destruir evento salto al destruir player
+    public override destroy( options:any ) {    // destruir evento 'salto' al destruir player        
         super.destroy(options);
         Keyboard.down.off("Space", this.jump);
     }
 
 
-    public override update(deltaMS: number) {
+    public override update( deltaMS:number ) {
 
         super.update(deltaMS / 1000);   //'super.update' llama al update del padre
         this.bIdle.update(deltaMS / (1000 / 60));  // (deltaFrame)
 
 
-        Keyboard.up.on("Digit1", () => { this.roll == false ? this.roll = true : this.roll = false });    // On/Off roll
+        
+        // Keyboard.up.on("Digit1", () => { this.roll == false ? this.roll = true : this.roll = false });    // On/Off roll
+        
+        if (Keyboard.state.get("Digit1")) {    // On/Off Roll
+            if (Keyboard.up) {
+                this.roll == false ? this.roll = true : this.roll = false;
+            }
+        }
 
-        Keyboard.up.on("Digit2", ()=> {    // reposicionar beetle
-            super.x = 236;
-            super.y = 60;
-        });
+        // Keyboard.up.on("Digit2", ()=> {    // reposicionar beetle
+        //     super.x = 236;
+        //     super.y = 60;
+        // })
+        
+        if (Keyboard.state.get("Digit2")) {    // reposicionar beetle
+            if (Keyboard.up) {
+                super.x = 455;
+                super.y = 90;
+            }
+        }
+
+        if (Keyboard.state.get("Digit3")) {    // Reset
+            if (Keyboard.up) {
+                SceneManager.changeScene(new TickerScene());
+            }
+        }
         
 
         // Movimiento lateral
         if (Keyboard.state.get("ArrowRight")) {
+
             if (this.roll == false) {
+
                 this.speed.x = P1.MOVE_SPEED;
                 this.bIdle.visible = false;
                 this.bWalk.visible = true;
@@ -145,15 +186,14 @@ export class P1 extends Phys implements IHitbox {
                 if (Keyboard.up) {
                     this.bIdle.scale.x = -1;
                 }
-            }
-            else {
+            } else {
                 this.speed.x = P1.ROLL_SPEED;
                 this.bIdle.visible = false;
                 this.bRoll.visible = true;
                 this.bRoll.scale.x = -1;
             }
-        }
-        else if (Keyboard.state.get("ArrowLeft")) {
+        } else if (Keyboard.state.get("ArrowLeft")) {
+
             if (this.roll == false) {
                 this.speed.x = -P1.MOVE_SPEED;
                 this.bIdle.visible = false;
@@ -163,29 +203,27 @@ export class P1 extends Phys implements IHitbox {
                 if (Keyboard.up) {
                     this.bIdle.scale.x = 1;
                 }
-            }
-            else {
+            } else {
                 this.speed.x = -P1.ROLL_SPEED;
                 this.bIdle.visible = false;
                 this.bRoll.visible = true;
                 this.bRoll.scale.x = 1;
             }
-        }
-        else {
+        } else {
             this.speed.x = 0;
             if (this.roll == false) {
                 this.bRoll.visible = false;
                 this.bWalk.visible = false;
                 this.bIdle.visible = true;
-            }
-            else {
+            } else {
                 this.bIdle.visible = false;
                 this.bRoll.visible = true;
             }
         }
 
         // Transformación bolita
-        if (this.rollStep >= 3) {
+        if (this.rollStep >= 5) {
+
             this.rollStep = 0;
             this.roll = true;
             this.bIdle.visible = false;
@@ -194,10 +232,20 @@ export class P1 extends Phys implements IHitbox {
             const sndTransform = sound.find("Transform");
             sndTransform.play({volume:0.6});
 
+            const sndAlarm = sound.find("Alarm");
+            
             setTimeout(() => {
                 sndTransform.play({volume:0.6});
                 this.roll = false;
-            }, 4000 );
+            }, 4300 );
+            
+            setTimeout(() => {
+                this.morphing();
+            }, 3400 );
+
+            setTimeout(()=> {
+                sndAlarm.play({volume:0.1});
+            }, 2780 );
         }
 
         // Vida
@@ -212,14 +260,13 @@ export class P1 extends Phys implements IHitbox {
     }
 
 
-    // Salto
     private jump() {
+
         if (this.canJump) {
-            this.canJump = false;
+            this.canJump = false;            
             if (this.roll == false) {
-                this.speed.y = -320;  //salto normal
-            }
-            else {
+                this.speed.y = -330;  //salto normal
+            } else {
                 this.speed.y = -130;  //salto bolita
                 this.break = true;
             }
@@ -232,26 +279,25 @@ export class P1 extends Phys implements IHitbox {
     }
 
 
-    public separate(overlap: Rectangle, plat: ObservablePoint<any>) {
+    public separate( overlap: Rectangle, plat: ObservablePoint<any> ) {
 
         if (overlap.width < overlap.height) {
+
             if (this.x > plat.x) {
                 this.x += overlap.width;  //expulsar hacia la derecha
-            }
-            else {
+            } else {
                 this.x -= overlap.width;  //expulsar hacia la izquierda
             }
-        }
-        else {
+        } else {
             if (this.y > plat.y) {
                 this.y += overlap.height;  //expulsar hacia abajo
                 this.speed.y = 0;
-            }
-            else {
+            } else {
                 this.y -= overlap.height;  //expulsar hacia arriba
                 this.speed.y = 0;
                 this.canJump = true;
             }
         }
     }
+
 }

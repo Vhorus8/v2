@@ -7,12 +7,10 @@ export class Button extends Container {
     private def: Texture;
     private over: Texture;
     private down: Texture;
-    private callback: Function;
-    
+    private callback: Function;    
     private spr: Sprite;
     
-    constructor(def:Texture, over:Texture, down:Texture, callback:Function) {        // uso 'def' xque 'default' ya es una variable d javascript
-        
+    constructor( def:Texture, over:Texture, down:Texture, callback:Function ) {        // uso 'def' xque 'default' ya es una variable d javascript
         super();
 
         this.def = def;
@@ -21,7 +19,7 @@ export class Button extends Container {
         this.callback = callback;
 
         this.spr = Sprite.from(def);
-        this.spr.anchor.set(0.5);    // eje
+        this.spr.anchor.set(0.5);
         this.addChild(this.spr);
 
         this.spr.interactive = true;

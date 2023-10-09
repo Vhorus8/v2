@@ -8,29 +8,28 @@ import { SceneManager } from "../utils/SceneManager";
 export class UnlockScene extends SceneBase {
 
     public update():void {}
-
     private unlock: Button;
 
     constructor() {
         super();
 
-    this.unlock = new Button(
-        Texture.from("Unlock"),
-        Texture.from("Unlock"),
-        Texture.from("Unlock"),
-        this.onButtonClick.bind(this)
-    );
+        this.unlock = new Button(
+            Texture.from("Unlock"),
+            Texture.from("Unlock"),
+            Texture.from("Unlock"),
+            this.onButtonClick.bind(this)
+        );
 
-    this.unlock.x = SceneManager.WIDTH / 2;
-    this.unlock.y = SceneManager.HEIGHT / 2;
+        this.unlock.x = SceneManager.WIDTH / 2;
+        this.unlock.y = SceneManager.HEIGHT / 2;
 
-    this.addChild(this.unlock);
+        this.addChild(this.unlock);
 
     }
 
 
     private onButtonClick() {
-        SceneManager.changeScene(new MenuScene());     // Go to Menu
+        SceneManager.changeScene(new MenuScene());     // go to Menu
     }
 
 }
