@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@pixi/sound": "^4.4.0",
+    "pixi-webfont-loader": "^1.0.3",
     "pixi.js": "^6.5.9"
   },
   "devDependencies": {

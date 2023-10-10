@@ -141,12 +141,13 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
         this.beet.y = 110;
 
 
-        // Texto (vida?, rollStep?):
+        // Texto
         const tStyle = new TextStyle({
-            fontSize: 100,
-            fontFamily: "MiFuente"
+            fontSize: 30,
+            fontFamily: "Pixelify"
         });
-        this.t = new Text(this.beet.life, tStyle);
+        this.t = new Text("life:" + this.beet.life, tStyle);
+        this.t.x = 455;
 
 
         this.addChild(this.w);
@@ -162,7 +163,7 @@ export class TickerScene extends SceneBase implements IUpdateable {     // exten
     public update( frame:number ) {    // (video Clase 14)     frame:number, deltaMS:number
 
         this.beet.update(frame);
-        this.t.text = this.beet.life;
+        this.t.text = "life: " + this.beet.life;
         // this.fire.update(deltaMS/1000)    // actualiza las partículas con deltaMS/1000 (segundos)
 
 

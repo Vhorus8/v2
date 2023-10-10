@@ -1,16 +1,24 @@
-import { Application, SCALE_MODES, Ticker, settings } from "pixi.js";
+import { Application, ExtensionType, SCALE_MODES, Ticker, extensions, settings } from "pixi.js";
 import { Keyboard } from "./Keyboard";
 import { SceneBase } from "./AbstractScene";
+import { WebfontLoaderPlugin } from "pixi-webfont-loader";
 
 
 export namespace SceneManager {
+
+    settings.ROUND_PIXELS = true;
+    settings.SCALE_MODE = SCALE_MODES.NEAREST;
+
+    extensions.add({
+        type: ExtensionType.Loader,
+        ref: WebfontLoaderPlugin,
+    });
 
     export const WIDTH = 540;
     export const HEIGHT = 540;
 
     let currentScene: SceneBase;
     let app: Application;
-
     
     export function initialize() {
 
@@ -18,9 +26,7 @@ export namespace SceneManager {
             console.error("Don't call 'initialize' twice!")
             return;
         }
-
-        settings.ROUND_PIXELS = true;
-        settings.SCALE_MODE = SCALE_MODES.NEAREST;
+        
 
         app = new Application({
             view: document.getElementById("pixi-canvas") as HTMLCanvasElement,
@@ -38,7 +44,7 @@ export namespace SceneManager {
 
             const scaleX = window.innerWidth / app.screen.width;
             const scaleY = window.innerHeight / app.screen.height;
-            const scale = Math.min( scaleX, scaleY );         // 'floor' en vez d 'min' ?
+            const scale = Math.min( scaleX, scaleY );         // floor ?
 
             const gameWidth = Math.round(app.screen.width * scale);
             const gameHeight = Math.round(app.screen.height * scale);
@@ -54,7 +60,7 @@ export namespace SceneManager {
         });
 
         window.dispatchEvent(new Event("resize"));
-
+        
 
         Ticker.shared.add(update);
 

@@ -69,6 +69,6 @@ export const assets = [
     {url: "./beetle mp3/Victory.mp3", name: "VictoryMusic"},
 
 
-    {url: "./fonts/PixelifySans-Regular.ttf", name: "MiFuente"}
+    {url: "./fonts/PixelifySans-Regular.ttf", name: "Pixelify"}
 
 ]

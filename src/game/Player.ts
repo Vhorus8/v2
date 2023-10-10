@@ -60,7 +60,7 @@ export class P1 extends Phys implements IHitbox {
                     this.scale.y = 1;
                     morphCount ++;
                 }
-                setTimeout(morph, 20);    // 20 ms
+                setTimeout(morph, 60);    // 60 ms
             } else {
                 this.scale.x = 1;
                 this.scale.y = 1;    // Restablecer tamaño
@@ -235,13 +235,13 @@ export class P1 extends Phys implements IHitbox {
             const sndAlarm = sound.find("Alarm");
             
             setTimeout(() => {
-                sndTransform.play({volume:0.6});
+                sndTransform.play({volume:0.7});
                 this.roll = false;
             }, 4300 );
             
             setTimeout(() => {
                 this.morphing();
-            }, 3400 );
+            }, 2800 );
 
             setTimeout(()=> {
                 sndAlarm.play({volume:0.1});
